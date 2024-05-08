@@ -6,9 +6,9 @@ public class RunApplication {
     public static void main(String[] args) {
 
         HanoiTowers hanoiTowers = new HanoiTowers();
-        hanoiTowers.startFillUp(QUANTITY);
+        hanoiTowers.startFillUp();
         hanoiTowers.printStatus();
 
-        hanoiTowers.move();
+        hanoiTowers.moveDisks(QUANTITY, 0, 2);
     }
 }

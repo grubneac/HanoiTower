@@ -5,24 +5,23 @@ import org.apache.commons.lang3.StringUtils;
 import static game.RunApplication.QUANTITY;
 
 public class HanoiTowers {
-    private Tower[] hanoiArr = new Tower[3];
+    private final Tower[] hanoiArr = new Tower[3];
+    private static int step;
 
-    void startFillUp(int quantity) {
+    void startFillUp() {
         for (int i = 0; i < hanoiArr.length; i++) {
             hanoiArr[i] = new Tower();
         }
-        hanoiArr[0].fillUp(quantity);
-        hanoiArr[1].fillUp(quantity);
-        hanoiArr[2].fillUp(quantity);
+        hanoiArr[0].fillUp();
     }
 
     public void printStatus() {
         int pictureSize = QUANTITY * 2 * hanoiArr.length + 5;
-        System.out.println(StringUtils.rightPad("|", pictureSize, '-') + "|");
-        for (int i = 0; i < QUANTITY; i++) {
+        System.out.println(StringUtils.rightPad("|", pictureSize, '-') + "| STEP: " + step++);
+        for (int i = QUANTITY - 1; i >= 0; i--) {
             System.out.print("| ");
             for (int j = 0; j < hanoiArr.length; j++) {
-                printTowerDisk(j, i);
+                printLineOfDisks(j, i);
                 System.out.print(" ");
             }
             System.out.println("|");
@@ -30,7 +29,7 @@ public class HanoiTowers {
         System.out.println(StringUtils.rightPad("|", pictureSize, '_') + "|");
     }
 
-    private void printTowerDisk(int tower, int disk) {
+    private void printLineOfDisks(int tower, int disk) {
         Integer[] currentTower = hanoiArr[tower].getTower();
         Integer diskSize = 0;
         if (currentTower.length > disk) {
@@ -41,7 +40,18 @@ public class HanoiTowers {
         System.out.print(StringUtils.rightPad("", QUANTITY - diskSize / 2, ' '));
     }
 
-    public void firstStep() {
+    public void moveDisks(int quantity, int from, int to) {
+        if (quantity > 0) {
+            int inter = 3 - from - to;
+            moveDisks(quantity - 1, from, inter);
+            moveSingleDisk(from, to);
+            moveDisks(quantity - 1, inter, to);
+        }
+    }
 
+    private void moveSingleDisk(int from, int to) {
+        Integer currDisk = hanoiArr[from].get();
+        hanoiArr[to].put(currDisk);
+        printStatus();
     }
 }

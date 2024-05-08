@@ -2,11 +2,13 @@ package game;
 
 import java.util.Stack;
 
-public class Tower {
-    private Stack<Integer> tower = new Stack<>();
+import static game.RunApplication.QUANTITY;
 
-    public void fillUp(int quantity) {
-        for (int i = 1; i <= quantity; i++) {
+public class Tower {
+    private final Stack<Integer> tower = new Stack<>();
+
+    public void fillUp() {
+        for (int i = QUANTITY; i > 0; i--) {
             tower.push(i*2);
         }
     }
@@ -14,4 +16,11 @@ public class Tower {
         return tower.toArray(new Integer[0]);
     }
 
+    public Integer get() {
+        return tower.pop();
+    }
+    
+    public void put(Integer disk){
+        tower.push(disk);
+    }
 }
